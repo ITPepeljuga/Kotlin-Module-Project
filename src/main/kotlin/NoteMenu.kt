@@ -1,4 +1,4 @@
-class NoteMenu : Menu() {
+class NoteMenu(private val archiveMenu: ArchiveMenu) : Menu() {
     private val noteManager = NoteManager()
 
     override fun show() {
@@ -18,7 +18,7 @@ class NoteMenu : Menu() {
             when {
                 userInput == 0 -> createNote()
                 userInput in 1..noteList.size -> select(userInput - 1)
-                userInput == noteList.size + 1 -> show()
+                userInput == noteList.size + 1 -> archiveMenu.show()
                 else -> {
                     println("Некорректный ввод. Введите цифру от 0 до ${noteList.size + 1}.")
                     show()

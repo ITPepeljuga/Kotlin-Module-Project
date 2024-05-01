@@ -1,29 +1,30 @@
 class ArchiveMenu : Menu() {
     private val archives = mutableListOf<String>()
-    private val noteMenu = NoteMenu()
+    private val noteMenu = NoteMenu(this)
+    var appStatus = true
 
     override fun show() {
-        println("Список архивов:")
-        println("0. Создать архив")
-        archives.forEachIndexed { index, archive ->
-            println("${index + 1}. $archive")
-        }
-        println("${archives.size + 1}. Выход")
-
-        val userInput = readLine()?.toIntOrNull()
-        if (userInput != null) {
-            when {
-                userInput == 0 -> create()
-                userInput in 1..archives.size -> noteMenu.show()
-                userInput == archives.size + 1 -> exitApp()
-                else -> {
-                    println("Некорректный ввод. Введите цифру от 0 до ${archives.size + 1}.")
-                    show()
-                }
+        while (appStatus) {
+            println("Список архивов:")
+            println("0. Создать архив")
+            archives.forEachIndexed { index, archive ->
+                println("${index + 1}. $archive")
             }
-        } else {
-            println("Некорректный ввод. Пожалуйста, введите цифру от 0 до ${archives.size + 1}.")
-            show()
+            println("${archives.size + 1}. Выход")
+
+            val userInput = readLine()?.toIntOrNull()
+            if (userInput != null) {
+                when {
+                    userInput == 0 -> create()
+                    userInput in 1..archives.size -> noteMenu.show()
+                    userInput == archives.size + 1 -> exitApp()
+                    else -> {
+                        println("Некорректный ввод. Введите цифру от 0 до ${archives.size + 1}.")
+                    }
+                }
+            } else {
+                println("Некорректный ввод. Пожалуйста, введите цифру от 0 до ${archives.size + 1}.")
+            }
         }
     }
 
@@ -37,7 +38,6 @@ class ArchiveMenu : Menu() {
         }
         archives.add(archiveName!!)
         println("Архив \"$archiveName\" успешно создан")
-        show()
     }
 
     override fun select(option: Int) {
@@ -45,5 +45,6 @@ class ArchiveMenu : Menu() {
 
     private fun exitApp() {
         println("Выход из приложения")
+        appStatus = false
     }
 }

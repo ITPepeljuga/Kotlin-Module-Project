@@ -1,8 +1,10 @@
 fun main() {
     val archiveMenu = ArchiveMenu()
-    val noteMenu = NoteMenu()
+    val noteMenu = NoteMenu(archiveMenu)
 
     archiveMenu.show()
-    noteMenu.show()
-}
 
+    if (archiveMenu.appStatus) {
+        noteMenu.show()
+    }
+}
